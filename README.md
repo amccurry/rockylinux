@@ -1,6 +1,6 @@
-# Rocky Linux 8 GNOME Desktop
+# Rocky Linux 9 GNOME Desktop
 
-The centos 7 GNOME Desktop image contains xrdp for remote access and docker in docker.
+The image contains xrdp for remote access and docker in docker.
 
 ## How to build
 ```
@@ -10,7 +10,7 @@ docker build -t local/rl9-desktop desktop/
 
 ### Docker in Docker
 
-How to run docker (20.10.1) in the docker desktop:
+How to run docker in the desktop:
 ```
 ...
 -v /sys/fs/cgroup:/sys/fs/cgroup \
@@ -35,7 +35,7 @@ docker run -d --rm \
   --cap-add=SYS_NICE \
   -p 3389:3389 \
   --name desktop \
-  desktop
+  local/rl9-desktop
 ```
 
 ### Stateful
@@ -50,11 +50,11 @@ docker run -d --rm \
   -e VOLUME_ROOT=${VOLUME_ROOT} \
   -v ${VOLUME_ROOT_NAME}:${VOLUME_ROOT} \
   --device /dev/fuse \
-  --security-opt seccomp=${PWD}/desktop/seccomp.json \
   --shm-size=1g \
   -v /sys/fs/cgroup:/sys/fs/cgroup \
   --cap-add=NET_ADMIN \
   --cap-add=SYS_ADMIN \
+  --cap-add=SYS_NICE \
   -p 3389:3389 \
   --stop-signal SIGRTMIN+3 \
   --name desktop \
